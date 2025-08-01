@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Rock Paper Scissors with Score</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f0f0f0;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    button {
+      font-size: 1.2em;
+      padding: 15px 25px;
+      margin: 10px;
+      cursor: pointer;
+      border-radius: 8px;
+      border: 2px solid #333;
+      background-color: white;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #ddd;
+    }
+    #result {
+      margin-top: 30px;
+      font-size: 1.5em;
+      min-height: 60px;
+      transition: color 0.5s ease;
+    }
+    #scoreboard {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+    #resetBtn {
+      margin-top: 20px;
+      font-size: 1em;
+      padding: 10px 20px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    #resetBtn:hover {
+      background-color: #d32f2f;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rock Paper Scissors</h1>
+  <div>
+    <button onclick="play('rock')">🪨 Rock</button>
+    <button onclick="play('paper')">📄 Paper</button>
+    <button onclick="play('scissors')">✂️ Scissors</button>
+  </div>
+
+  <div id="result"></div>
+
+  <div id="scoreboard">
+    You: <span id="userScore">0</span> | Computer: <span id="computerScore">0</span>
+  </div>
+
+  <button id="resetBtn" onclick="resetGame()">Reset Game</button>
+
+  <script>
+    let userScore = 0;
+    let computerScore = 0;
+
+    const resultDiv = document.getElementById('result');
+    const userScoreSpan = document.getElementById('userScore');
+    const computerScoreSpan = document.getElementById('computerScore');
+
+    function play(userChoice) {
+      const choices = ['rock', 'paper', 'scissors'];
+      const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+      let resultText = "";
+      let color = "black";
+
+      if (userChoice === computerChoice) {
+        resultText = `It's a tie! You both chose ${userChoice}.`;
+        color = "orange";
+      } else if (
+        (userChoice === 'rock' && computerChoice === 'scissors') ||
+        (userChoice === 'paper' && computerChoice === 'rock') ||
+        (userChoice === 'scissors' && computerChoice === 'paper')
+      ) {
+        resultText = `You win! ${userChoice} beats ${computerChoice}.`;
+        userScore++;
+        color = "green";
+      } else {
+        resultText = `You lose! ${computerChoice} beats ${userChoice}.`;
+        computerScore++;
+        color = "red";
+      }
+
+      resultDiv.textContent = resultText;
+      resultDiv.style.color = color;
+      userScoreSpan.textContent = userScore;
+      computerScoreSpan.textContent = computerScore;
+
+      // Animate result
+      resultDiv.style.opacity = 0;
+      setTimeout(() => {
+        resultDiv.style.opacity = 1;
+      }, 50);
+    }
+
+    function resetGame() {
+      userScore = 0;
+      computerScore = 0;
+      userScoreSpan.textContent = userScore;
+      computerScoreSpan.textContent = computerScore;
+      resultDiv.textContent = "";
+    }
+  </script>
+</body>
+</html>
